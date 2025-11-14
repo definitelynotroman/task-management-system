@@ -18,7 +18,9 @@ export const useTasks = () => {
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
     };
-    setTasks([...tasks, task]);
+    const updatedTasks = [...tasks, task];
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
   };
 
   const updateTask = (id: string, updates: Partial<Task>) => {
@@ -30,11 +32,9 @@ export const useTasks = () => {
   };
 
   const deleteTask = (id: string) => {
-    const taskIndex = tasks.findIndex((task) => task.id === id);
-    if (taskIndex !== -1) {
-      tasks.splice(taskIndex, 1);
-      saveTasksToStorage(tasks);
-    }
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
   };
 
   return {

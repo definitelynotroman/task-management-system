@@ -9,31 +9,63 @@
 
 ## Bugs Fixed
 
-### Bug #1: [Bug Title]
+### Bug #1: Tasks Not Persisting After Creation
 
-**Location:** `[file path]`
+**Location:** `src/hooks/useTasks.ts`
 
 **Issue:**
-[Describe the issue you found]
+The `addTask` function was updating the React state but not saving the new tasks to localStorage. When users created a task and refreshed the page, the task would disappear because it was never persisted to storage.
 
 **Solution:**
-[Explain how you fixed it]
+Added `saveTasksToStorage(updatedTasks)` call after updating the state in the `addTask` function. Now when a task is created, it's both added to the state and saved to localStorage, ensuring persistence across page refreshes.
 
 ---
 
-### Bug #2: [Bug Title]
+### Bug #2: Delete Task Not Working Correctly
 
-**Location:** `[file path]`
+**Location:** `src/hooks/useTasks.ts`
 
 **Issue:**
-[Describe the issue you found]
+The `deleteTask` function was using `splice()` to mutate the tasks array directly, but never called `setTasks()` to update the React state. This meant the task was deleted from localStorage but remained visible in the UI until a page refresh.
 
 **Solution:**
-[Explain how you fixed it]
+Replaced the mutation-based approach with an immutable filter operation. Changed from `tasks.splice(taskIndex, 1)` to `tasks.filter((task) => task.id !== id)`, then properly called `setTasks(updatedTasks)` to trigger a re-render. This ensures both the UI and localStorage stay in sync.
 
 ---
 
-[Continue for each bug fixed...]
+### Bug #3: Case-Sensitive Search
+
+**Location:** `src/components/TaskList.tsx`
+
+**Issue:**
+The search functionality was case-sensitive, meaning searching for "setup" would not find tasks with titles like "Setup development environment". This created a poor user experience where users had to match exact capitalization.
+
+**Solution:**
+Made the search case-insensitive by converting both the search query and task title/description to lowercase before comparison. Now users can search with any case combination and still find matching tasks.
+
+---
+
+### Bug #4: Due Date Not Formatted for Display
+
+**Location:** `src/components/TaskCard.tsx`
+
+**Issue:**
+The `formatDate` function was returning raw ISO date strings (e.g., "2025-11-28") instead of human-readable dates. The function had a comment indicating it should format dates but was just returning the raw string.
+
+**Solution:**
+Implemented proper date formatting using `new Date(dateString).toLocaleDateString()`. Now due dates are displayed in a user-friendly format based on the user's locale (e.g., "28/11/2025" in UK locale).
+
+---
+
+### Bug #5: Missing Form Validation
+
+**Location:** `src/components/TaskForm.tsx`
+
+**Issue:**
+Users could submit the task form with empty title or description fields. There was no client-side validation to prevent creating tasks without required information, leading to incomplete or invalid task data.
+
+**Solution:**
+Added `required` attributes to both the title input and description textarea. This leverages HTML5 form validation to prevent submission of empty fields and provides native browser validation feedback to users.
 
 ---
 

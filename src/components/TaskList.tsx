@@ -29,10 +29,11 @@ export const TaskList = ({
   }
 
   if (searchQuery) {
+    const lowerQuery = searchQuery.toLowerCase();
     filteredTasks = filteredTasks.filter(
       (task) =>
-        task.title.includes(searchQuery) ||
-        task.description.includes(searchQuery)
+        task.title.toLowerCase().includes(lowerQuery) ||
+        task.description.toLowerCase().includes(lowerQuery)
     );
   }
 
@@ -95,41 +96,37 @@ export const TaskList = ({
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSortBy('createdAt')}
-              className={`px-3 py-1 text-sm rounded ${
-                sortBy === 'createdAt'
+              className={`px-3 py-1 text-sm rounded ${sortBy === 'createdAt'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               Created Date
             </button>
             <button
               onClick={() => setSortBy('dueDate')}
-              className={`px-3 py-1 text-sm rounded ${
-                sortBy === 'dueDate'
+              className={`px-3 py-1 text-sm rounded ${sortBy === 'dueDate'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               Due Date
             </button>
             <button
               onClick={() => setSortBy('priority')}
-              className={`px-3 py-1 text-sm rounded ${
-                sortBy === 'priority'
+              className={`px-3 py-1 text-sm rounded ${sortBy === 'priority'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               Priority
             </button>
             <button
               onClick={() => setSortBy('title')}
-              className={`px-3 py-1 text-sm rounded ${
-                sortBy === 'title'
+              className={`px-3 py-1 text-sm rounded ${sortBy === 'title'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               Title
             </button>

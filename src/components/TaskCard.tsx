@@ -33,7 +33,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'No due date';
-    return dateString; // Should format to readable date
+    return new Date(dateString).toLocaleDateString();
   };
 
   return (

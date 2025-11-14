@@ -4,7 +4,7 @@ export const STORAGE_KEY = 'tasks';
 
 export const loadTasksFromStorage = (): Task[] => {
   try {
-    const stored = localStorage.getItem('task-list');
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return [];
     return JSON.parse(stored);
   } catch (error) {

@@ -61,6 +61,7 @@ export const TaskForm = ({
           name="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter task title"
         />
@@ -78,6 +79,7 @@ export const TaskForm = ({
           name="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
           rows={3}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter task description"
