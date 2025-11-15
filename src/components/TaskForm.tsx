@@ -23,6 +23,27 @@ export const TaskForm = ({
     initialTask?.priority || 'medium'
   );
   const [dueDate, setDueDate] = useState(initialTask?.dueDate || '');
+  const [tags, setTags] = useState<string[]>(initialTask?.tags || []);
+  const [tagInput, setTagInput] = useState('');
+
+  const handleAddTag = () => {
+    const trimmedTag = tagInput.trim();
+    if (trimmedTag && !tags.includes(trimmedTag)) {
+      setTags([...tags, trimmedTag]);
+      setTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddTag();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +54,7 @@ export const TaskForm = ({
       status,
       priority,
       dueDate: dueDate || undefined,
-      tags: [],
+      tags,
     };
 
     onSubmit(task);
@@ -44,6 +65,8 @@ export const TaskForm = ({
     setStatus('todo');
     setPriority('medium');
     setDueDate('');
+    setTags([]);
+    setTagInput('');
   };
 
   return (
@@ -143,6 +166,54 @@ export const TaskForm = ({
           onChange={(e) => setDueDate(e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+      </div>
+
+      <div className="mb-4">
+        <label
+          htmlFor="tags"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Tags
+        </label>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            id="tags"
+            name="tags"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={handleTagInputKeyDown}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter a tag and press Enter or click Add"
+          />
+          <button
+            type="button"
+            onClick={handleAddTag}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+          >
+            Add
+          </button>
+        </div>
+        {tags.length > 0 && (
+          <div className="flex gap-2 flex-wrap">
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className="inline-flex items-center gap-1 bg-gray-200 text-gray-700 px-2 py-1 text-xs rounded-full"
+              >
+                #{tag}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag)}
+                  className="ml-1 text-gray-500 hover:text-red-600 focus:outline-none"
+                  aria-label={`Remove tag ${tag}`}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex gap-2">
