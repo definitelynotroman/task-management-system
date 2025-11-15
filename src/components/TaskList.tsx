@@ -1,6 +1,7 @@
 import { Task, TaskStatus } from '../types/task';
 import { TaskCard } from './TaskCard';
 import { useState } from 'react';
+import { filterTasksByStatus } from '../utils/taskHelpers';
 
 interface TaskListProps {
   tasks: Task[];
@@ -25,7 +26,8 @@ export const TaskList = ({
   let filteredTasks = tasks;
 
   if (filter !== 'all') {
-    filteredTasks = filteredTasks.filter((task) => task.status === filter);
+    // Note: filterTasksByStatus also sorts by createdAt desc, but we'll re-sort later
+    filteredTasks = filterTasksByStatus(tasks, filter);
   }
 
   if (searchQuery) {
