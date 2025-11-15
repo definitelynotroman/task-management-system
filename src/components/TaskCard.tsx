@@ -20,7 +20,13 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
   };
 
   const handleDelete = () => {
-    onDelete(task.id);
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${task.title}"? This action cannot be undone.`
+      )
+    ) {
+      onDelete(task.id);
+    }
   };
 
   const handleStatusToggle = () => {
