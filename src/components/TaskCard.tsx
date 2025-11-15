@@ -53,6 +53,8 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
             className={`px-2 py-1 text-xs rounded-full ${
               priorityColors[task.priority]
             }`}
+            role="status"
+            aria-label={`Priority: ${task.priority}`}
           >
             {task.priority}
           </span>
@@ -60,6 +62,8 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
             className={`px-2 py-1 text-xs rounded-full ${
               statusColors[task.status]
             }`}
+            role="status"
+            aria-label={`Status: ${task.status}`}
           >
             {task.status}
           </span>
@@ -92,12 +96,14 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
         <button
           onClick={handleStatusToggle}
           className="flex-1 bg-blue-500 text-white py-2 sm:py-1 px-3 rounded text-sm hover:bg-blue-600 transition-colors min-h-11 sm:min-h-0"
+          aria-label={`Change status from ${task.status} to next status`}
         >
           Change Status
         </button>
         <button
           onClick={handleDelete}
           className="bg-red-500 text-white py-2 sm:py-1 px-3 rounded text-sm hover:bg-red-600 transition-colors min-h-11 sm:min-h-0"
+          aria-label={`Delete task: ${task.title}`}
         >
           Delete
         </button>

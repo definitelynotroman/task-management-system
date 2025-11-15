@@ -95,13 +95,15 @@ export const TaskList = ({
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <label className="text-sm font-medium text-gray-700">Sort by:</label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Sort tasks">
             <button
               onClick={() => setSortBy('createdAt')}
               className={`px-3 py-1 text-sm rounded ${sortBy === 'createdAt'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
+              aria-pressed={sortBy === 'createdAt'}
+              aria-label="Sort by created date"
             >
               Created Date
             </button>
@@ -111,6 +113,8 @@ export const TaskList = ({
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
+              aria-pressed={sortBy === 'dueDate'}
+              aria-label="Sort by due date"
             >
               Due Date
             </button>
@@ -120,6 +124,8 @@ export const TaskList = ({
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
+              aria-pressed={sortBy === 'priority'}
+              aria-label="Sort by priority"
             >
               Priority
             </button>
@@ -129,12 +135,15 @@ export const TaskList = ({
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
+              aria-pressed={sortBy === 'title'}
+              aria-label="Sort by title"
             >
               Title
             </button>
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="px-3 py-1 text-sm rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+              aria-label={`Toggle sort order, currently ${sortOrder === 'asc' ? 'ascending' : 'descending'}`}
             >
               {sortOrder === 'asc' ? '↑ Asc' : '↓ Desc'}
             </button>

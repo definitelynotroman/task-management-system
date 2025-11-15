@@ -31,16 +31,21 @@ export const TaskFilter = ({
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-6">
       <div className="mb-4">
+        <label htmlFor="task-search" className="sr-only">
+          Search tasks
+        </label>
         <input
           type="text"
+          id="task-search"
           placeholder="Search tasks..."
           value={searchInput}
           onChange={handleSearch}
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Search tasks by title or description"
         />
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap" role="group" aria-label="Filter tasks by status">
         {(['all', 'todo', 'in-progress', 'done'] as const).map((filter) => (
           <button
             key={filter}
@@ -50,6 +55,8 @@ export const TaskFilter = ({
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
+            aria-pressed={activeFilter === filter}
+            aria-label={`Filter by ${filter === 'all' ? 'all tasks' : filter}`}
           >
             {filter === 'all'
               ? 'All Tasks'

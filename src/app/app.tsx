@@ -39,13 +39,21 @@ export function App() {
 
       <main className="container mx-auto px-4 py-8">
         {loading && (
-          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+          <div
+            className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4"
+            role="status"
+            aria-live="polite"
+          >
             <p>Loading tasks...</p>
           </div>
         )}
 
         {/* Statistics Dashboard */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          role="region"
+          aria-label="Task statistics"
+        >
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-gray-500 text-sm">Total Tasks</h3>
             <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
@@ -73,6 +81,8 @@ export function App() {
           <button
             onClick={() => setShowForm(!showForm)}
             className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors shadow-md"
+            aria-label={showForm ? 'Cancel adding new task' : 'Add new task'}
+            aria-expanded={showForm}
           >
             {showForm ? 'Cancel' : '+ Add New Task'}
           </button>
