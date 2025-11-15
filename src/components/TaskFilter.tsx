@@ -16,6 +16,8 @@ export const TaskFilter = ({
 
   useEffect(() => {
     onSearchChange(searchInput);
+    // TODO: Consider memoizing onSearchChange callback in parent component (app.tsx)
+    // using useCallback to prevent unnecessary re-renders and effect triggers
   }, [searchInput, onSearchChange]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
