@@ -71,13 +71,62 @@ Added `required` attributes to both the title input and description textarea. Th
 
 ## Features Implemented
 
-### Feature #1: [Feature Name]
+### Feature #1: Helper Functions Integration
+
+**Location:** `src/components/TaskList.tsx`
 
 **Details:**
-[Explain what you implemented]
+Integrated the existing `filterTasksByStatus` helper function from `taskHelpers.ts` into the TaskList component. This replaces the inline filtering logic and promotes code reusability while maintaining the same functionality.
 
 **Implementation Approach:**
-[Describe your approach]
+- Imported `filterTasksByStatus` from `taskHelpers.ts`
+- Replaced the inline status filtering logic with a call to the helper function when filter is not 'all'
+- Added a comment noting that the helper function also sorts by createdAt desc, but this is overridden by the component's custom sorting logic that runs after filtering
+
+---
+
+### Feature #2: Delete Confirmation Dialog
+
+**Location:** `src/components/TaskCard.tsx`
+
+**Details:**
+Added a confirmation dialog before deleting tasks to prevent accidental data loss. Users are now prompted with a clear message including the task title before the deletion is executed.
+
+**Implementation Approach:**
+- Modified the `handleDelete` function to show a `window.confirm()` dialog
+- The confirmation message includes the task title for clarity: "Are you sure you want to delete "[task title]"? This action cannot be undone."
+- The delete operation only proceeds if the user confirms the action
+
+---
+
+### Feature #3: Tags Functionality
+
+**Location:** `src/components/TaskForm.tsx`
+
+**Details:**
+Implemented full tag management functionality in the TaskForm component. Users can now add, view, and remove tags when creating or editing tasks. Tags are displayed in TaskCard components and persisted with task data.
+
+**Implementation Approach:**
+- Added state management for tags array and tag input field
+- Created handler functions: `handleAddTag()` (prevents duplicates), `handleRemoveTag()`, and `handleTagInputKeyDown()` (Enter key support)
+- Added UI section with tag input field, "Add" button, and display of existing tags with remove buttons
+- Updated form submission to include the tags array instead of an empty array
+- Tags are properly initialized from `initialTask` when editing and reset when form is cleared
+
+---
+
+### Feature #4: Accessibility Improvements
+
+**Location:** Multiple components (`src/components/TaskCard.tsx`, `src/components/TaskFilter.tsx`, `src/components/TaskList.tsx`, `src/app/app.tsx`)
+
+**Details:**
+Comprehensive accessibility improvements across all components to enhance screen reader support and keyboard navigation, following WCAG guidelines.
+
+**Implementation Approach:**
+- **TaskCard**: Added `role="status"` and `aria-label` to priority/status badges; added descriptive `aria-label` attributes to action buttons
+- **TaskFilter**: Added screen-reader-only label for search input; added `role="group"` and `aria-label` to filter button group; added `aria-pressed` to indicate active filter state
+- **TaskList**: Added `role="group"` and `aria-label` to sort controls; added `aria-pressed` to sort buttons; added descriptive `aria-label` to all sort and toggle buttons
+- **App**: Added `role="status"` and `aria-live="polite"` to loading message; added `role="region"` and `aria-label` to statistics dashboard; added `aria-label` and `aria-expanded` to main action button
 
 ---
 
@@ -86,7 +135,7 @@ Added `required` attributes to both the title input and description textarea. Th
 ### Tools Used
 
 - [ ] GitHub Copilot
-- [x] ChatGPT
+- [ ] ChatGPT
 - [x] Claude
 - [x] Other: Cursor
 
