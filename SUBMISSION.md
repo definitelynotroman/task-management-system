@@ -184,6 +184,20 @@ Comprehensive accessibility improvements across all components to enhance screen
 - [x] Claude
 - [x] Other: Cursor
 
+### How Cursor AI Was Used
+
+Cursor AI (Auto / Claude / Composer 1) was used as a collaborative coding assistant throughout the entire project. The AI tool was leveraged for:
+
+- **Code Analysis & Bug Identification**: Systematically reviewed the codebase to identify bugs, including data persistence issues, state management problems, and missing validations
+- **Feature Implementation**: Assisted in implementing missing features such as tags functionality, delete confirmation dialogs, and accessibility improvements
+- **Code Refactoring**: Suggested and implemented improvements including memoized callbacks, better ID generation, and helper function integration
+- **Test Development**: Collaborated on writing comprehensive unit tests (102 tests), integration tests (12 tests), and E2E tests (14 tests) with proper mocking strategies and accessibility verification
+- **Problem Solving**: Helped debug test failures, resolve selector ambiguities in E2E tests, and fix TypeScript type issues
+- **Documentation**: Assisted in creating and maintaining comprehensive documentation in SUBMISSION.md, including detailed explanations of bugs, features, improvements, and testing strategies
+- **Code Quality**: Provided suggestions for code organization, best practices, and architectural improvements
+
+The AI tool served as a pair programming partner, helping to accelerate development while maintaining code quality and ensuring thorough testing coverage.
+
 ---
 
 ## Testing Strategy
