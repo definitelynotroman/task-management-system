@@ -48,9 +48,20 @@ export const TaskList = ({
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
         break;
       case 'dueDate': {
-        const aDate = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-        const bDate = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-        comparison = aDate - bDate;
+        // Tasks without due dates should always appear last, regardless of sort order
+        if (!a.dueDate && !b.dueDate) {
+          comparison = 0;
+        } else if (!a.dueDate) {
+          // a has no date, should always go last (return positive large value)
+          comparison = sortOrder === 'desc' ? -Infinity : Infinity;
+        } else if (!b.dueDate) {
+          // b has no date, should always go last (return negative large value)
+          comparison = sortOrder === 'desc' ? Infinity : -Infinity;
+        } else {
+          const aDate = new Date(a.dueDate).getTime();
+          const bDate = new Date(b.dueDate).getTime();
+          comparison = aDate - bDate;
+        }
         break;
       }
       case 'priority': {

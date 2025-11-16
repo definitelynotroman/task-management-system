@@ -99,6 +99,21 @@ Enhanced ID generation to use `crypto.randomUUID()` instead of `Date.now().toStr
 
 ---
 
+### Improvement #5: Due Date Sorting Logic
+
+**Location:** `src/components/TaskList.tsx`
+
+**Details:**
+Improved the due date sorting logic to ensure tasks without due dates always appear at the end of the list, regardless of whether the sort order is ascending or descending. This provides a more intuitive user experience when sorting by due date.
+
+**Implementation:**
+- Modified the `dueDate` case in the sorting logic to handle undefined due dates specially
+- Tasks without due dates now always appear last by using conditional Infinity/-Infinity values based on sort order
+- Added logic to check if either task has no due date before comparing actual dates
+- This ensures tasks with due dates are always prioritized over tasks without them in both sort directions
+
+---
+
 ## Features Implemented
 
 ### Feature #1: Helper Functions Integration
