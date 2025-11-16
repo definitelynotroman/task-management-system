@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { TaskForm } from '../components/TaskForm';
 import { TaskList } from '../components/TaskList';
@@ -25,6 +25,10 @@ export function App() {
       completionRate: total > 0 ? (done / total) * 100 : 0,
     };
   }, [tasks]);
+
+  const handleSearchChange = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -104,7 +108,7 @@ export function App() {
         {/* Filter */}
         <TaskFilter
           onFilterChange={setFilter}
-          onSearchChange={setSearchQuery}
+          onSearchChange={handleSearchChange}
           activeFilter={filter}
         />
 
