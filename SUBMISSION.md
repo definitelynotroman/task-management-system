@@ -1,9 +1,9 @@
-# Technical Test Submission Template
+# Technical Test Submission
 
 ## Candidate Information
 
 - **Name:** Roman Baran
-- **Date:** [Submission Date]
+- **Date:** November 16, 2025
 
 ---
 
