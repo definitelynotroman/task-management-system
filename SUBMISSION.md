@@ -3,7 +3,7 @@
 ## Candidate Information
 
 - **Name:** Roman Baran
-- **Date:** November 16, 2025
+- **Date:** November 17, 2025
 
 ---
 
@@ -552,5 +552,11 @@ Add meta tags, Open Graph tags, and structured data (JSON-LD) to improve search 
 
 ### 34. Mobile Gestures
 Implement touch gestures for mobile devices, such as swipe-to-delete and swipe-to-complete actions on task cards, to enhance mobile user experience.
+
+### 35. Fix Package Audit Issues
+Resolve security vulnerabilities and outdated dependencies identified by `npm audit` during package installation. Update vulnerable packages to secure versions, or apply patches where available, to ensure the application's dependency tree is free from known security issues.
+
+### 36. Commit Message Linting
+Implement commitlint to enforce consistent commit message formatting and conventions (e.g., Conventional Commits). This improves commit history readability, enables automated changelog generation, and helps maintain a clean and professional git history.
 
 **Note:** The above suggestions represent key areas for improvement. As we dive deeper into each area, many more specific enhancements could be identified (e.g., skeleton loaders, retry logic with exponential backoff, enhanced ARIA live regions, focus management, data migration utilities, request cancellation, offline queue management, structured logging, debugging tools, and more). The depth of improvements is often proportional to the scale and complexity requirements of the application.
