@@ -30,9 +30,9 @@ test.describe('Task Management E2E Tests', () => {
       // Verify page title or header
       await expect(page.locator('h1')).toContainText('Task Management System');
       
-      // Verify statistics dashboard is visible
-      const statsRegion = page.getByRole('region', { name: /task statistics/i });
-      await expect(statsRegion).toBeVisible();
+      // Verify Dashboard metrics region is visible
+      const dashboardRegion = page.getByRole('region', { name: /dashboard metrics/i });
+      await expect(dashboardRegion).toBeVisible();
       
       // Verify "Add New Task" button is visible
       await expect(page.getByRole('button', { name: /add new task/i })).toBeVisible();
@@ -123,9 +123,13 @@ test.describe('Task Management E2E Tests', () => {
     });
 
     test('should update statistics when task is created', async ({ page }) => {
-      // Get initial statistics
-      const statsRegion = page.getByRole('region', { name: /task statistics/i });
-      const initialTotal = await statsRegion.getByText(/total tasks/i).locator('..').getByText(/\d+/).textContent();
+      // Get initial statistics from Dashboard
+      const dashboardRegion = page.getByRole('region', { name: /dashboard metrics/i });
+      // Find the Total Tasks card and get the number from the paragraph element
+      const totalTasksCard = dashboardRegion.getByText(/total tasks/i).locator('..');
+      // The number is in a paragraph with class "text-3xl" - get it by finding the paragraph with numeric content
+      const initialTotalElement = totalTasksCard.locator('p.text-3xl');
+      const initialTotal = await initialTotalElement.textContent();
       const initialTotalNum = parseInt(initialTotal || '0', 10);
       
       // Create a task
@@ -137,8 +141,10 @@ test.describe('Task Management E2E Tests', () => {
       // Wait for task to appear
       await expect(page.getByRole('heading', { name: /stats test task/i })).toBeVisible();
       
-      // Verify statistics updated
-      const newTotal = await statsRegion.getByText(/total tasks/i).locator('..').getByText(/\d+/).textContent();
+      // Verify statistics updated - wait a bit for the dashboard to update
+      await page.waitForTimeout(100);
+      const newTotalElement = totalTasksCard.locator('p.text-3xl');
+      const newTotal = await newTotalElement.textContent();
       const newTotalNum = parseInt(newTotal || '0', 10);
       expect(newTotalNum).toBe(initialTotalNum + 1);
     });
