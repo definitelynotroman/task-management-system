@@ -1,8 +1,9 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { TaskForm } from '../components/TaskForm';
 import { TaskList } from '../components/TaskList';
 import { TaskFilter } from '../components/TaskFilter';
+import { Dashboard } from '../components/Dashboard';
 import { TaskStatus } from '../types/task';
 
 export function App() {
@@ -10,21 +11,6 @@ export function App() {
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState<TaskStatus | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
-
-  const stats = useMemo(() => {
-    const total = tasks.length;
-    const todo = tasks.filter((t) => t.status === 'todo').length;
-    const inProgress = tasks.filter((t) => t.status === 'in-progress').length;
-    const done = tasks.filter((t) => t.status === 'done').length;
-
-    return {
-      total,
-      todo,
-      inProgress,
-      done,
-      completionRate: total > 0 ? (done / total) * 100 : 0,
-    };
-  }, [tasks]);
 
   const handleSearchChange = useCallback((query: string) => {
     setSearchQuery(query);
@@ -52,33 +38,8 @@ export function App() {
           </div>
         )}
 
-        {/* Statistics Dashboard */}
-        <div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
-          role="region"
-          aria-label="Task statistics"
-        >
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h2 className="text-gray-500 text-sm">Total Tasks</h2>
-            <p className="text-2xl font-bold text-gray-800" aria-label={`${stats.total} total tasks`}>{stats.total}</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h2 className="text-gray-500 text-sm">To Do</h2>
-            <p className="text-2xl font-bold text-yellow-600" aria-label={`${stats.todo} tasks to do`}>{stats.todo}</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h2 className="text-gray-500 text-sm">In Progress</h2>
-            <p className="text-2xl font-bold text-blue-600" aria-label={`${stats.inProgress} tasks in progress`}>
-              {stats.inProgress}
-            </p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h2 className="text-gray-500 text-sm">Completed</h2>
-            <p className="text-2xl font-bold text-green-600" aria-label={`${stats.done} tasks completed, ${stats.completionRate.toFixed(0)} percent completion rate`}>
-              {stats.done} ({stats.completionRate.toFixed(0)}%)
-            </p>
-          </div>
-        </div>
+        {/* Dashboard */}
+        <Dashboard tasks={tasks} onFilterChange={setFilter} />
 
         {/* Add Task Button */}
         <div className="mb-6">

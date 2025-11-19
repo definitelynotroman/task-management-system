@@ -76,7 +76,7 @@ describe('App Integration Tests', () => {
       });
 
       // Verify statistics updated - check the statistics region
-      const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+      const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
       expect(statsRegion).toHaveTextContent('1'); // Total tasks
     });
 
@@ -98,7 +98,7 @@ describe('App Integration Tests', () => {
 
       // Check statistics
       await waitFor(() => {
-        const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+        const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
         expect(statsRegion).toBeInTheDocument();
         expect(statsRegion).toHaveTextContent('1'); // Total tasks
         expect(statsRegion).toHaveTextContent('1'); // To Do count
@@ -158,7 +158,7 @@ describe('App Integration Tests', () => {
       });
 
       // Verify initial state
-      const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+      const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
       expect(statsRegion).toHaveTextContent('1'); // Total
       expect(statsRegion).toHaveTextContent('1'); // To Do
 
@@ -251,7 +251,7 @@ describe('App Integration Tests', () => {
       }, { timeout: 3000 });
 
       // Verify statistics updated
-      const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+      const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
       expect(statsRegion).toHaveTextContent('0'); // Total tasks
     });
 
@@ -520,7 +520,7 @@ describe('App Integration Tests', () => {
 
       // Wait for statistics to update (indicating task was created)
       await waitFor(() => {
-        const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+        const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
         expect(statsRegion).toHaveTextContent('1');
       });
 
@@ -580,7 +580,7 @@ describe('App Integration Tests', () => {
       }, { timeout: 3000 });
 
       // Verify statistics updated
-      const statsRegion = screen.getByRole('region', { name: /task statistics/i });
+      const statsRegion = screen.getByRole('region', { name: /dashboard metrics/i });
       expect(statsRegion).toHaveTextContent('0'); // Total tasks
     });
   });
