@@ -302,10 +302,10 @@ describe('TaskList', () => {
       await user.click(screen.getByRole('button', { name: /sort by priority/i }));
 
       const taskHeadings = screen.getAllByRole('heading', { level: 3 });
-      // Desc order with priority puts low first (due to negation in sort logic)
-      expect(taskHeadings[0]).toHaveTextContent('Task 3'); // low
+      // Desc order with priority: high → medium → low
+      expect(taskHeadings[0]).toHaveTextContent('Task 1'); // high
       expect(taskHeadings[1]).toHaveTextContent('Task 2'); // medium
-      expect(taskHeadings[2]).toHaveTextContent('Task 1'); // high
+      expect(taskHeadings[2]).toHaveTextContent('Task 3'); // low
     });
 
     it('should sort tasks by title when title button is clicked', async () => {

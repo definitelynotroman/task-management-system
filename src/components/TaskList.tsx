@@ -66,7 +66,7 @@ export const TaskList = ({
       }
       case 'priority': {
         const priorityOrder = { high: 3, medium: 2, low: 1 };
-        comparison = priorityOrder[b.priority] - priorityOrder[a.priority];
+        comparison = priorityOrder[a.priority] - priorityOrder[b.priority];
         break;
       }
       case 'title':

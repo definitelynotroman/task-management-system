@@ -27,7 +27,7 @@ export const getTaskById = (tasks: Task[], id: string): Task | undefined => {
 
 export const filterTasksByStatus = (tasks: Task[], status: string) => {
   const filtered = tasks.filter((task) => task.status === status);
-  const sorted = filtered.sort(
+  const sorted = [...filtered].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
   return sorted;
