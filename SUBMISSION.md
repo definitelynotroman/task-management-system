@@ -3,7 +3,7 @@
 ## Candidate Information
 
 - **Name:** Roman Baran
-- **Date:** November 17, 2025
+- **Date:** November 19, 2025
 
 ---
 
