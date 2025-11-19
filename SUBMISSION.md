@@ -45,6 +45,30 @@ Added `required` attributes to both the title input and description textarea. Th
 
 ---
 
+### Bug #4: Incorrect Priority Sorting Logic
+
+**Location:** `src/components/TaskList.tsx`
+
+**Issue:**
+The priority sorting logic in TaskList was reversed - it was using `priorityOrder[b.priority] - priorityOrder[a.priority]` instead of `priorityOrder[a.priority] - priorityOrder[b.priority]`. This caused tasks to be sorted in the opposite order of what users expected. When sorting by priority in descending order, low priority tasks appeared first instead of high priority tasks.
+
+**Solution:**
+Fixed the comparison logic to `priorityOrder[a.priority] - priorityOrder[b.priority]`. Now when users sort by priority in descending order, tasks are correctly ordered from high → medium → low priority, and ascending order shows low → medium → high.
+
+---
+
+### Bug #5: Array Mutation in filterTasksByStatus
+
+**Location:** `src/utils/taskHelpers.ts`
+
+**Issue:**
+The `filterTasksByStatus` function was mutating the filtered array directly by calling `.sort()` on it without creating a copy first. While this particular case might not cause immediate issues, it violates React's immutability principles and could lead to unexpected behavior or bugs in the future.
+
+**Solution:**
+Added spread operator to create a new array before sorting: `const sorted = [...filtered].sort(...)`. This ensures the function doesn't mutate any input data and follows React best practices for immutability.
+
+---
+
 ## Improvements Made
 
 ### Improvement #1: Case-Insensitive Search
@@ -162,16 +186,37 @@ Implemented full tag management functionality in the TaskForm component. Users c
 
 ### Feature #4: Accessibility Improvements
 
-**Location:** Multiple components (`src/components/TaskCard.tsx`, `src/components/TaskFilter.tsx`, `src/components/TaskList.tsx`, `src/app/app.tsx`)
+**Location:** Multiple components (`src/components/TaskCard.tsx`, `src/components/TaskFilter.tsx`, `src/components/TaskList.tsx`, `src/app/app.tsx`, `src/components/Dashboard.tsx`)
 
 **Details:**
 Comprehensive accessibility improvements across all components to enhance screen reader support and keyboard navigation, following WCAG guidelines.
 
 **Implementation Approach:**
-- **TaskCard**: Added `role="status"` and `aria-label` to priority/status badges; added descriptive `aria-label` attributes to action buttons
+- **TaskCard**: Changed wrapper from `<div>` to semantic `<article>` element; added `role="list"` and `aria-label="Task tags"` to tags container; added `role="listitem"` to individual tags; added `role="status"` and `aria-label` to priority/status badges; added descriptive `aria-label` attributes to action buttons
 - **TaskFilter**: Added screen-reader-only label for search input; added `role="group"` and `aria-label` to filter button group; added `aria-pressed` to indicate active filter state
-- **TaskList**: Added `role="group"` and `aria-label` to sort controls; added `aria-pressed` to sort buttons; added descriptive `aria-label` to all sort and toggle buttons
-- **App**: Added `role="status"` and `aria-live="polite"` to loading message; added `role="region"` and `aria-label` to statistics dashboard; added `aria-label` and `aria-expanded` to main action button
+- **TaskForm**: Added `aria-label="Add"` to Add Tag button for clarity
+- **TaskList**: Added `role="list"` and `aria-label="Tasks"` to task grid container; added `role="group"` and `aria-label` to sort controls; added `aria-pressed` to sort buttons; added descriptive `aria-label` to all sort and toggle buttons
+- **App**: Added `role="status"` and `aria-live="polite"` to loading message; added `role="contentinfo"` to footer; added `aria-label` and `aria-expanded` to main action button; integrated Dashboard component with proper accessibility attributes
+- **Dashboard**: Added `role="region"` and `aria-label="Dashboard metrics"` to metrics section; added descriptive `aria-label` attributes to all metric cards; added `aria-label` to chart; ensured SVG icons are hidden from screen readers with `aria-hidden="true"`
+
+---
+
+### Feature #5: Analytics Dashboard
+
+**Location:** `src/components/Dashboard.tsx` (new component), `src/app/app.tsx` (integration)
+
+**Details:**
+Implemented a comprehensive analytics dashboard to visualize task data as specified in CANDIDATE_GUIDE.md. Includes 4 metric cards (Total Tasks, Completion Rate %, Overdue Tasks, Tasks by Status) and an interactive donut chart (Option A: Task Status Distribution) using Recharts library.
+
+**Implementation Approach:**
+- Created Dashboard component with metric calculations (total, completion rate, overdue count, status breakdown)
+- Integrated Recharts `PieChart` with color-coded segments (Yellow: TODO, Blue: In Progress, Green: Done)
+- Implemented click-to-filter functionality connecting chart to existing task list filter
+- Added TypeScript interfaces (`DashboardProps`, `ChartData`) and type guard (`isValidTaskStatus`) to avoid forced casting
+- Used Tailwind classes for responsive grid layout (2 cols mobile, 4 cols desktop)
+- Added comprehensive accessibility attributes (`role="region"`, `aria-label` on cards and chart, `aria-hidden` on icons)
+- Integrated into `app.tsx` by replacing old statistics section and passing `tasks` and `setFilter` as `onFilterChange` prop
+- Added TODO comment acknowledging optimization opportunities (custom hooks, constants, code splitting)
 
 ---
 
@@ -188,15 +233,20 @@ Comprehensive accessibility improvements across all components to enhance screen
 
 Cursor AI (Auto / Claude / Composer 1) was used as a collaborative coding assistant throughout the entire project. The AI tool was leveraged for:
 
-- **Code Analysis & Bug Identification**: Systematically reviewed the codebase to identify bugs, including data persistence issues, state management problems, and missing validations
-- **Feature Implementation**: Assisted in implementing missing features such as tags functionality, delete confirmation dialogs, and accessibility improvements
-- **Code Refactoring**: Suggested and implemented improvements including memoized callbacks, better ID generation, and helper function integration
-- **Test Development**: Collaborated on writing comprehensive unit tests (102 tests), integration tests (12 tests), and E2E tests (14 tests) with proper mocking strategies and accessibility verification
-- **Problem Solving**: Helped debug test failures, resolve selector ambiguities in E2E tests, and fix TypeScript type issues
-- **Documentation**: Assisted in creating and maintaining comprehensive documentation in SUBMISSION.md, including detailed explanations of bugs, features, improvements, and testing strategies
-- **Code Quality**: Provided suggestions for code organization, best practices, and architectural improvements
+- **Code Analysis & Bug Identification**: Systematically reviewed the codebase to identify bugs, including data persistence issues, state management problems, missing validations, priority sorting logic errors, and array mutation issues
+- **Feature Implementation**: Assisted in implementing missing features such as:
+  - Tags functionality
+  - Delete confirmation dialogs
+  - **Analytics Dashboard with Recharts** (metric cards, interactive donut chart, click-to-filter functionality)
+  - Comprehensive accessibility improvements across all components
+- **Code Refactoring**: Suggested and implemented improvements including memoized callbacks, better ID generation, helper function integration, and semantic HTML improvements
+- **Library Integration**: Guided the integration of Recharts library, including TypeScript type safety, proper interface definitions, type guards to avoid forced casting, and handling Recharts-specific type requirements
+- **Test Development**: Collaborated on writing comprehensive unit tests (132 tests), integration tests (12 tests), and E2E tests (14 tests) with proper mocking strategies, Recharts component mocks, and accessibility verification
+- **Problem Solving**: Helped debug test failures, resolve selector ambiguities in E2E tests, fix TypeScript type compatibility issues with Recharts, resolve linter errors, and implement type-safe solutions without forced casting
+- **Documentation**: Assisted in creating and maintaining comprehensive documentation in SUBMISSION.md, including detailed explanations of bugs, features (including Dashboard), improvements, and testing strategies
+- **Code Quality**: Provided suggestions for code organization, best practices, architectural improvements, and added TODO comments acknowledging optimization opportunities
 
-The AI tool served as a pair programming partner, helping to accelerate development while maintaining code quality and ensuring thorough testing coverage.
+The AI tool served as a pair programming partner, helping to accelerate development while maintaining code quality, ensuring thorough testing coverage, and implementing complex features like data visualization with proper type safety.
 
 ---
 
@@ -209,14 +259,16 @@ The AI tool served as a pair programming partner, helping to accelerate developm
 - [x] Unit tests for TaskFilter component (`src/components/TaskFilter.spec.tsx`)
 - [x] Unit tests for TaskList component (`src/components/TaskList.spec.tsx`)
 - [x] Unit tests for useTasks hook (`src/hooks/useTasks.spec.ts`)
+- [x] Unit tests for Dashboard component (`src/components/Dashboard.spec.tsx`)
+- [x] Unit tests for App component (`src/app/app.spec.tsx`)
 - [x] Integration tests for complete user workflows (`src/app/app.integration.spec.tsx`)
 - [x] E2E tests for real browser testing (`e2e/src/task-management.spec.ts`)
 
 ### Test Coverage
 
-**Total Test Count:** 128 tests across 8 test files (114 unit/integration + 14 E2E)
+**Total Test Count:** 158 tests across 9 test files (144 unit/integration + 14 E2E)
 
-**Unit Tests (102 tests):**
+**Unit Tests (132 tests):**
 
 1. **TaskCard Component (14 tests)**
    - Rendering and data display
@@ -266,6 +318,28 @@ The AI tool served as a pair programming partner, helping to accelerate developm
    - Deleting tasks
    - localStorage persistence
    - Return value validation
+
+6. **Dashboard Component (25 tests)**
+   - Empty state rendering and messaging
+   - Total tasks calculation
+   - Completion rate calculation (0%, 33%, 100%)
+   - Overdue tasks calculation (past due date, no due date, completed tasks)
+   - Tasks by status breakdown (todo, in-progress, done counts)
+   - Chart rendering with proper structure
+   - Chart interaction (click handlers configured)
+   - Accessibility (ARIA labels on metric cards, region roles, heading hierarchy)
+   - Responsive behavior (grid layout classes)
+   - Edge cases (various status distributions, single task, large numbers)
+   - Visual elements (metric card titles, status labels, CSS classes)
+
+7. **App Component (7 tests)**
+   - Successful rendering
+   - Page title (Task Management System)
+   - Dashboard component rendering
+   - Dashboard metrics region rendering
+   - Main sections in correct order (Dashboard, Add button, Search)
+   - Dashboard initial empty state metrics
+   - Footer with contentinfo role
 
 **Integration Tests (12 tests):**
 
@@ -411,21 +485,30 @@ Coverage report generated using Vitest with v8 provider:
 
 ## Time Spent
 
-**Total Time:** 6-8 hours
+**Total Time:** 8-10 hours
 
 ### Breakdown by Activity
 
-- **Bug Identification & Fixes:** ~1-1.5 hours
+- **Bug Identification & Fixes:** ~1.5-2 hours
   - Systematic code review and bug identification
   - Fixing data persistence issues
   - Resolving state management problems
   - Implementing form validation
+  - Fixing priority sorting logic
+  - Fixing array mutation in filterTasksByStatus
 
-- **Feature Implementation:** ~1.5-2 hours
+- **Feature Implementation:** ~2.5-3 hours
   - Tags functionality implementation
   - Delete confirmation dialog
   - Helper functions integration
-  - Accessibility improvements
+  - **Dashboard component with analytics (NEW):**
+    - Metric cards (Total, Completion Rate, Overdue, Status Breakdown)
+    - Interactive donut chart with Recharts
+    - Click-to-filter functionality
+    - TypeScript type safety (interfaces, type guards)
+    - Empty state handling
+  - Comprehensive accessibility improvements across all components
+  - Dashboard integration into main app
 
 - **Improvements & Optimizations:** ~0.5-1 hour
   - Case-insensitive search
@@ -434,16 +517,21 @@ Coverage report generated using Vitest with v8 provider:
   - Improved ID generation
   - Due date sorting logic
 
-- **Testing:** ~2-2.5 hours
-  - Unit tests for all components and hooks (102 tests)
+- **Testing:** ~2.5-3 hours
+  - Unit tests for all components and hooks (132 tests)
+  - **Dashboard component tests (25 tests, NEW)**
+  - **Enhanced App component tests (7 tests, NEW)**
   - Integration tests for user workflows (12 tests)
   - E2E tests with Playwright (14 tests)
   - Test debugging and fixes
+  - Recharts mock implementation for testing
+  - Updated integration tests for Dashboard
   - Coverage analysis
 
 - **Documentation:** ~0.5-1 hour
   - Writing comprehensive SUBMISSION.md
   - Documenting bugs, features, and improvements
+  - Dashboard feature documentation
   - Testing strategy documentation
   - Additional suggestions for improvement
 

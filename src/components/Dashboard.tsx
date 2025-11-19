@@ -221,7 +221,7 @@ export const Dashboard = ({ tasks, onFilterChange }: DashboardProps) => {
           <p className="text-sm text-gray-600 mb-6">
             Click on a segment to filter tasks by status
           </p>
-          <div className="w-full" style={{ height: '400px' }}>
+          <div className="w-full h-[480px] sm:h-[420px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -235,7 +235,7 @@ export const Dashboard = ({ tasks, onFilterChange }: DashboardProps) => {
                   fill="#8884d8"
                   dataKey="value"
                   onClick={handleChartClick}
-                  style={{ cursor: 'pointer' }}
+                  className="cursor-pointer"
                   aria-label="Task status distribution chart"
                 >
                   {chartData.map((entry) => (
@@ -261,7 +261,7 @@ export const Dashboard = ({ tasks, onFilterChange }: DashboardProps) => {
                 />
                 <Legend
                   verticalAlign="bottom"
-                  height={36}
+                  height={60}
                   formatter={(value: string, entry: any) => {
                     const data = entry.payload as ChartData;
                     return `${value}: ${data.value} (${data.percentage.toFixed(1)}%)`;
