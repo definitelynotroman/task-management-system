@@ -43,7 +43,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+    <article className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
         <h3 className="text-lg font-semibold text-gray-800 wrap-break-word">
           {task.title}
@@ -78,11 +78,12 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
       </div>
 
       {task.tags && task.tags.length > 0 && (
-        <div className="mb-3">
+        <div className="mb-3" role="list" aria-label="Task tags">
           <div className="flex gap-2 flex-wrap">
             {task.tags.map((tag, index) => (
               <span
                 key={index}
+                role="listitem"
                 className="bg-gray-200 text-gray-700 px-2 py-1 text-xs rounded-full"
               >
                 #{tag}
@@ -108,6 +109,6 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
           Delete
         </button>
       </div>
-    </div>
+    </article>
   );
 };

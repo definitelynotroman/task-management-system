@@ -59,22 +59,22 @@ export function App() {
           aria-label="Task statistics"
         >
           <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Total Tasks</h3>
-            <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
+            <h2 className="text-gray-500 text-sm">Total Tasks</h2>
+            <p className="text-2xl font-bold text-gray-800" aria-label={`${stats.total} total tasks`}>{stats.total}</p>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">To Do</h3>
-            <p className="text-2xl font-bold text-yellow-600">{stats.todo}</p>
+            <h2 className="text-gray-500 text-sm">To Do</h2>
+            <p className="text-2xl font-bold text-yellow-600" aria-label={`${stats.todo} tasks to do`}>{stats.todo}</p>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">In Progress</h3>
-            <p className="text-2xl font-bold text-blue-600">
+            <h2 className="text-gray-500 text-sm">In Progress</h2>
+            <p className="text-2xl font-bold text-blue-600" aria-label={`${stats.inProgress} tasks in progress`}>
               {stats.inProgress}
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Completed</h3>
-            <p className="text-2xl font-bold text-green-600">
+            <h2 className="text-gray-500 text-sm">Completed</h2>
+            <p className="text-2xl font-bold text-green-600" aria-label={`${stats.done} tasks completed, ${stats.completionRate.toFixed(0)} percent completion rate`}>
               {stats.done} ({stats.completionRate.toFixed(0)}%)
             </p>
           </div>
@@ -122,7 +122,7 @@ export function App() {
         />
       </main>
 
-      <footer className="bg-gray-800 text-white p-4 mt-12">
+      <footer className="bg-gray-800 text-white p-4 mt-12" role="contentinfo">
         <div className="container mx-auto text-center">
           <p>Task Management System - Technical Test © 2025</p>
         </div>
